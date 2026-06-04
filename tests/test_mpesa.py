@@ -1,7 +1,7 @@
-from app.parsers.mpesa import parse
+from app.parsers.mpesa import parse_mpesa
 
 # change this to the real path of your M-PESA statement
-transactions = parse("/Users/jeniphermawia/Downloads/budget app/MPESA_Statement_2026-05-15_to_2025-05-15_2547xxxxxx461.xlsx")
+transactions = parse_mpesa("/Users/jeniphermawia/Downloads/budget app/data/MPESA_Statement_2026-05-15_to_2025-05-15_2547xxxxxx461.xlsx")
 
 print(f"Transactions parsed: {len(transactions)}")
 

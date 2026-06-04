@@ -108,7 +108,7 @@ def transform(rows:list[tuple], account:str)->list[dict]:
 
 
 ## ORCHESTRATOR
-def parse(file_path:str | Path, account:str | None=None)->list[dict]:
+def parse_mpesa(file_path:str | Path, account:str | None=None)->list[dict]:
     """
     Orchestrates the parsing of an M-PESA statement file by extracting rows and transforming them into normalized transactions.
     Args:
