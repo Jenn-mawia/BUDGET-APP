@@ -2,13 +2,13 @@
 from app.parsers.bank import run, transform, extract, extract_totals, _num
 
 
-# --- Unit tests: _num --------------------------------------------------
+# Unit tests: _num
 
 def test_num_strips_commas():
     assert _num("1,234.56") == 1234.56
 
 
-# --- Unit tests: transform ---------------------------------------------
+# Unit tests: transform
 
 def fake_bank():
     """Minimal PDF text: header, B/F, two withdrawals, one deposit.
@@ -58,8 +58,12 @@ def test_extract_totals_reads_total_row():
     totals = extract_totals(fake_bank())
     assert totals == {"withdrawals": 4500.0, "deposits": 10000.0}
 
+def test_transform_ref_and_flag():
+    txns = transform(fake_bank(), account="test")
+    assert txns[0]["ref"] == "test|2025-11-01|3500.00|17013.40"
+    assert all(t["is_loan_advance"] is False for t in txns)
 
-# --- Reconciliation test (needs real files) ----------------------------
+# Reconciliation test (needs real files)
 
 def test_bank_reconciles_against_stated_totals(bank_files):
     """Each file's parsed totals must match its printed Total row."""
@@ -73,3 +77,8 @@ def test_bank_reconciles_against_stated_totals(bank_files):
 
         assert round(out_total, 2) == stated["withdrawals"], f.name
         assert round(in_total, 2) == stated["deposits"], f.name
+
+def test_bank_refs_unique_on_real_data(bank_files):
+    for f in bank_files:
+        txns = run(f)
+        assert len({t["ref"] for t in txns}) == len(txns), f.name

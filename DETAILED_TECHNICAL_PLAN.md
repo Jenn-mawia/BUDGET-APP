@@ -83,13 +83,13 @@ Write these facts at the top of a `NOTES.md` so later decisions are grounded. Th
 
 ## Phase 1 — Harden the Parsers (19 – 21 Oct)
 
-### Step 1.1 — Keep the M-Pesa receipt number
+### Step 1.1 — Give every transaction a unique `ref`
 
-The receipt number (column 0) is the only reliable way to recognise a transaction that was uploaded twice. In `parsers/mpesa.py`, add it to the dict built in `transform()`:
+A `ref` lets the app recognise a transaction that was uploaded twice. The M-Pesa receipt number alone is **not** unique: in the 12-month statement, 912 receipt numbers appear on more than one row (a Fuliza advance and the payment it funded share one, and so do a transfer and its charge). Receipt + direction + amount + description is unique for all 3,137 rows. In `parsers/mpesa.py`, add it to the dict built in `transform()`:
 
 ```python
         transactions.append({
-            "ref": str(row[0]).strip(),          # M-Pesa receipt no. — used for de-duplication
+            "ref": f"{str(row[0]).strip()}|{'out' if withdrawn else 'in'}|{amount:.2f}|{description}",
             "date": row[1].date(),
             ...
         })
@@ -368,7 +368,7 @@ CREATE TABLE IF NOT EXISTS members (
 );
 CREATE TABLE IF NOT EXISTS transactions (
     id          INTEGER PRIMARY KEY,
-    ref         TEXT NOT NULL UNIQUE,          -- receipt no. or built key (Step 1.1)
+    ref         TEXT NOT NULL UNIQUE,          -- built key from Step 1.1
     member_id   INTEGER REFERENCES members(id),
     date        TEXT NOT NULL,                 -- ISO yyyy-mm-dd
     description TEXT NOT NULL,

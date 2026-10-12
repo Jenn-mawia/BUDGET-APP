@@ -87,6 +87,7 @@ def transform(lines: list[str], account: str) -> list[dict]:
         prev_balance = balance
 
         txns.append({
+            "ref": f"{account}|{tran_date.isoformat()}|{amount:.2f}|{balance:.2f}", #Bank rows have no receipt number
             "date": tran_date,
             "description": description,
             "amount": amount,
@@ -94,7 +95,7 @@ def transform(lines: list[str], account: str) -> list[dict]:
             "balance": balance,
             "source": "bank",
             "account": account,
-            "is_overdraft_helper": False, # not needed for bank transactions here
+            "is_loan_advance": False, # not needed for bank transactions here
         })
     return txns
 

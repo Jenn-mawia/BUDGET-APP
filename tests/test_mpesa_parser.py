@@ -28,6 +28,10 @@ def fake_mpesa_data():
 
     return [header, payment, deposit, overdraft]
 
+def test_transform_ref_is_unique():
+    txns = transform(fake_mpesa_data(), account="test-account")
+    assert txns[0]["ref"].startswith("ABC1|out|200.00|")
+    assert len({t["ref"] for t in txns}) == len(txns)
 
 def test_transform_parse_transactions():
     '''Tests that transform correctly parses transactions from the raw M-PESA data, including handling of amounts and descriptions.'''
@@ -67,7 +71,15 @@ def test_transform_join_descriptions():
 
 ## RECONCILIATION TEST (NEED REAL DATA)
 def test_mpesa_reconciles(mpesa_files):
-    txns = parse_mpesa(mpesa_files[0])
+    """Opening balance + money in - money out must equal the closing balance."""
+    txns = parse_mpesa(mpesa_files[0])            # newest first
+    newest, oldest = txns[0], txns[-1]
+    oldest_signed = oldest["amount"] if oldest["direction"] == "in" else -oldest["amount"]
+    opening = oldest["balance"] - oldest_signed
     ins = sum(t["amount"] for t in txns if t["direction"] == "in")
     outs = sum(t["amount"] for t in txns if t["direction"] == "out")
-    assert round(ins, 2) == round(outs, 2)
+    assert round(opening + ins - outs, 2) == round(newest["balance"], 2)
+
+def test_mpesa_refs_unique_on_real_data(mpesa_files):
+    txns = parse_mpesa(mpesa_files[0])
+    assert len({t["ref"] for t in txns}) == len(txns)

@@ -57,7 +57,7 @@ Each parser follows the same **Extract → Transform** pattern already in `app/p
 | `balance` | `0.0` | Running balance after the transaction |
 | `source` | `"mpesa"` | `"mpesa"` or `"bank"` |
 | `account` | `"MPESA_Statement_2026-05-15…"` | Which file/account it came from |
-| `ref` | `"TEB4XYZ12"` | **To add.** M-Pesa receipt number, used to skip duplicates when a file is uploaded twice |
+| `ref` | `"UEEMF3V8QT\|out\|200.00\|Merchant Payment…"` | **To add.** Receipt no. + direction + amount + description (the receipt alone repeats), used to skip duplicates when a file is uploaded twice |
 | `is_loan_advance` | `True` | Fuliza advance rows: kept for traceability, never counted as income |
 
 ### Current state

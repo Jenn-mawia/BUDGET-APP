@@ -5,6 +5,7 @@ Reads an M-PESA .xlsx statement (the kind exported from the Safaricom self-servi
 normalized transaction dictionaries.
 
 Normalized transaction schema (shared with the bank parser):
+    ref             : str             -- unique key (receipt|direction|amount|description)
     date            : datetime.date   -- transaction date
     description     : str             -- the narrative / details text
     amount          : float           -- always positive (the magnitude)
@@ -41,7 +42,7 @@ def extract(file_path:str | Path)->list[tuple]:
 ## TRANSFORM
 def _to_amount(value)->float:
     """
-    Converts the amount value to a positive float representing an amount.Handles various formats including numeric types, strings with commas, and blanks.
+    Converts the amount value to a positive float representing an amount.Handles various formats including numeric types, strings with commas and blanks.
     Args:
         value: The cell value to convert.
     Returns:
@@ -95,6 +96,7 @@ def transform(rows:list[tuple], account:str)->list[dict]:
             continue
 
         transactions.append({
+            "ref": f"{str(row[0]).strip()}|{'out' if withdrawn else 'in'}|{amount:.2f}|{description}", #recognise a transaction that was uploaded twice
             "date": row[1].date(),
             "description": description,
             "amount": amount,
