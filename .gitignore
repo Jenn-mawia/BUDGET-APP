@@ -1,0 +1,21 @@
+# private financial data
+data/
+
+*.db
+exports/
+
+# Python / OS clutter
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Ignore local environment secrets
+env/
+.env.local
+
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore log files
+*.log
