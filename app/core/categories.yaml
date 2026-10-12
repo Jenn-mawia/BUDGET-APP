@@ -18,9 +18,19 @@
 # 
 
 
-# ---- Loans & overdrafts (must be first — these phrases overlap with everything else) ----
+# Catch-all fees (MUST be last — "charge" is very greedy)
+
+Charges & Fees:
+- transfer of funds charge
+- pay bill charge
+- withdrawal charge
+- pay merchant charge
+- excise duty
+- /charge                        # bank fee lines end in ".../Charge"
+# Loans & overdrafts (must be first — these phrases overlap with everything else)
 
 Fuliza:
+  - overdraft of credit      # money Fuliza lends you for a payment
   - fuliza m-pesa amount is     # message when fuliza is triggered
 
 Loan Repayment:
@@ -32,13 +42,14 @@ Loan Repayment:
   # TODO: add KCB/M-Shwari loan repayment keywords if you use them
 
 
-# ---- Fixed / recurring bills ----
+# Fixed / recurring bills 
 
 Rent:
   - "7629905"
   # TODO: add the landlord's till/paybill or phone number here
 
 Power:
+  - kplc
   - sent to kplc prepaid
 
 Water:
@@ -56,7 +67,7 @@ Internet & TV Subscriptions:
   # TODO: keep only the ones you actually use
 
 Airtime:
-  - Safaricom Post Paid
+  - safaricom post paid
   - airtime
   - tingg
   - bundles
@@ -64,7 +75,7 @@ Airtime:
   - airtel data
 
 
-# ---- Spending categories ----
+# Spending categories
 
 Shopping:
   - naivas
@@ -72,9 +83,10 @@ Shopping:
   - quickmart
   - quick mart
   - carrefour
+  - majid al futtaim       # Carrefour's company name on M-Pesa
   - chandarana
   - supermarket
-  - market
+  - mrp stores
   # TODO: add your local grocers / kiosks
 
 Groceries:
@@ -86,7 +98,12 @@ Groceries:
 - milka nyakweba
 - sarah muthoni murigi
 - sarah murigi
--  
+- pure fresh
+- victory farms
+- royal nest spices
+- freshfinds
+- nigel ouko
+# TODO: add your common mama mboga purchases for groceries 
 
 Restaurant:
   - java
@@ -96,7 +113,9 @@ Restaurant:
   - cafe
   - kfc
   - pizza
-  # TODO: add the places you actually eat
+  - asyana gardens
+  - mama ashanti
+  # TODO: add the places you actually eat in or frequent
 
 Butchery:
   - butchery
@@ -107,16 +126,23 @@ Beauty:
   - beauty
   - nimo naturals
   - bandari
-  # TODO: add salon / barber names
+  - nimo brand
+  # TODO: add salon / barber names that you visit
 
-Shopping:
+Health:
+  - pharmaplus
+  - pharmacy
+  - chemist
+  - hospital
+  - health
+  - out patient
+  - clinic
+  - medical
+
+Online Shopping:
   - jumia
   - kilimall
   - amazon
-  - carrefour
-  - mall
-  - merchant
-  - direct pay
   # NOTE: "shop" alone is too greedy — it'd match other words
   # containing "shop" too. Use specific merchant names instead.
 
@@ -125,6 +151,10 @@ Transport:
   - bolt
   - little
   - taxi
+  - rubis
+  - shell
+  - totalenergies
+  - veew distributors
   - dennis wamuranga
   # TODO: add fuel station names if you fuel a car (Total, Shell, Rubis, etc.)
 
@@ -135,21 +165,34 @@ Travel:
   - kenya airways
   - sgr
   - airline
-  # TODO: add hotels / Airbnb references if relevant
+  # TODO: add hotels / airlines/ Airbnb references if relevant
 
 
-# ---- Savings & investments ----
+# Savings & investments
 
 Savings:
+  - ziidi mmf
+  - unit trust invest
+  - cytonn money market
   - hazina
   - old mutual
   - sacco
   - kcb m-pesa
   - m-shwari
-  # TODO: add your specific SACCO name or paybill
+  - ziidi
+  # TODO: add your specific SACCO name or paybill where you save your money
+
+# Chama savings & deposits
+Chama:
+  - acc. 0510173643067
+  - nancy gechemba        
+  - shalline ontiri           # M-Pesa transfers to/from the chama treasurer
+  - 893431/mpesa payment 
 
 
-# ---- Transfers (between your OWN accounts vs to other people) ----
+
+
+# --Transfers (between your OWN accounts vs to other people) --
 #
 # Important: order matters here. "Bank Transfer" catches your OWN
 # top-ups to the I&M account (paybill 542542 with your account
@@ -158,6 +201,7 @@ Savings:
 # person-to-person.
 
 Bank Transfer:
+  - transfer from bank
   - personal transfer
   - family transfer
   - "542542"               # I&M Bank paybill (you topping up your own account)
@@ -166,24 +210,64 @@ Bank Transfer:
   - mpesa payment to 254729920461   # your own bank-linked number
   # TODO: add any other phone/paybill numbers that are YOUR accounts
 
+
+Family transfer:
+- omondi lovell
+- dorcas nzili
+- ruth nzili
+- david choge
+- mary nasimiyu
+- naomi cherobon
+
 People Transfer:
   - customer transfer
   - send money
-  - mpesa payment to 2547   # generic phone-number payment from the bank
+  - mpesa payment to 254   # generic phone-number payment from the bank
   # TODO: replace this generic rule (or keep + add specific people
   # above it) once you want named categories like "Family - Mum",
   # "Friend - X", etc.
 
-
-# ---- Cash & misc ----
+# Cash & miscellanous
 
 Withdrawal:
   - withdraw
   - agent
 
+Education:
+- lipa karo
+- school
+- strathmore
+- university
 
-# ---- Catch-all fees (MUST be last — "charge" is very greedy) ----
+Online payments: 
+- paystack
+- pesapal
+- globalpay
 
-Charges & Fees:
-  - charge
-  - excise duty
+Home and Maintenance: 
+- urban spackle
+- carpet wash
+
+Fitness / Recreation:
+- gym 
+- atara
+- padel
+
+Books / libraries: 
+- tbc
+- tbc langata
+
+# MONEY COMING IN
+Salary:
+  - salary payment
+
+Client Income:
+  - receive international transfer    
+
+Money Received:
+  - funds received from
+
+
+
+
+                   
